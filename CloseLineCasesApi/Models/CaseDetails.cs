@@ -73,6 +73,22 @@ namespace CloseLineCasesApi.Models
         public string County { get; set; }
     }
 
+    public class CalendarNotes
+    {
+        public int Id { get; set; }
+        public string FileNo { get; set; }
+        public int ActivityId { get; set; }
+        public int ActivityDetailId { get; set; }
+        public string Department { get; set; }
+        public string Topic { get; set; }
+        public string SubTopic { get; set; }
+        public string Comment { get; set; }
+        public string UniqueNumber { get; set; }
+        public bool VisibleToClient { get; set; }
+    }
+
+
+
     public class CaseDetails
     {
         public string FileNumber { get; set; }
@@ -91,6 +107,7 @@ namespace CloseLineCasesApi.Models
         public List<Borrower> Borrowers { get; set; }
         public List<Seller> Sellers { get; set; }
         public List<Agent> Agents { get; set; }
+        public List<CalendarNotes> CalendarNotes { get; set; }
     }
     
 

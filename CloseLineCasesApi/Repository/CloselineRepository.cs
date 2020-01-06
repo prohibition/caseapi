@@ -21,6 +21,21 @@ namespace CloseLineCasesApi.Repository
             }
         }
 
+        public static List<CalendarNotes> GetAllCalendarNotes()
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] Where VisibleToClient=1").ToList();
+            }
+        }
+
+        public static List<CalendarNotes> GetCalendarNotes(string fileno)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] Where FileNo=@fileno and VisibleToClient=1", new { @fileno = fileno}).ToList();
+            }
+        }
 
         public static List<Closers> GetClosers(string state,string county)
         {
@@ -85,7 +100,9 @@ namespace CloseLineCasesApi.Repository
 
             if (!string.IsNullOrEmpty(order.ListingAgent))
                 agents.Add(new Agent { FullName = order.ListingAgent.ToDefaultString(), Type = "Listing", Email = order.ListingAgentEmail.ToDefaultString() });
-            
+
+
+            var calenderNotes = GetCalendarNotes(fileno);
 
             var caseDetail = new CaseDetails
             {
@@ -105,7 +122,7 @@ namespace CloseLineCasesApi.Repository
                 Borrowers = borrowers,
                 Sellers = sellers,
                 Agents = agents,
-
+                CalendarNotes= calenderNotes
             };
 
             return caseDetail;
