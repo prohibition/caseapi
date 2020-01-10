@@ -25,11 +25,34 @@ namespace CloseLineCasesApi.Repository
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] Where VisibleToClient=1").ToList();
+                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] where IsCalendarNote=1").ToList();
+            }
+        }
+
+        public static List<CalendarNotes> GetAllClientCalendarNotes()
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] where VisibleToClient=1").ToList();
             }
         }
 
         public static List<CalendarNotes> GetCalendarNotes(string fileno)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] Where FileNo=@fileno and IsCalendarNote=1", new { @fileno = fileno }).ToList();
+            }
+        }
+
+        public static List<CalendarNotes> GetCaseAllNotes(string fileno)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] Where FileNo=@fileno", new { @fileno = fileno }).ToList();
+            }
+        }
+        public static List<CalendarNotes> GetClientCalendarNotes(string fileno)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -103,6 +126,7 @@ namespace CloseLineCasesApi.Repository
 
 
             var calenderNotes = GetCalendarNotes(fileno);
+            var clientcalenderNotes = GetClientCalendarNotes(fileno);
 
             var caseDetail = new CaseDetails
             {
@@ -122,7 +146,8 @@ namespace CloseLineCasesApi.Repository
                 Borrowers = borrowers,
                 Sellers = sellers,
                 Agents = agents,
-                CalendarNotes= calenderNotes
+                CalendarNotes= calenderNotes,
+                ClientNotes= clientcalenderNotes,
             };
 
             return caseDetail;

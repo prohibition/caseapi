@@ -85,6 +85,18 @@ namespace CloseLineCasesApi.Models
         public string Comment { get; set; }
         public string UniqueNumber { get; set; }
         public bool VisibleToClient { get; set; }
+        public bool IsCalendarNote { get; set; }
+
+        public DateTime? CalendarNoteSetDate { get; set; }
+        public string CalendarNoteSetBy { get; set; }
+        public DateTime? CalendarNoteUpdatedDate { get; set; }
+        public string CalendarNoteUpdatedBy { get; set; }
+
+        public DateTime? ClientVisibleSetDate { get; set; }
+        public string ClientVisibleSetBy { get; set; }
+        public DateTime? ClientVisibleUpdatedDate { get; set; }
+        public string ClientVisibleUpdatedBy { get; set; }
+
     }
 
 
@@ -108,6 +120,7 @@ namespace CloseLineCasesApi.Models
         public List<Seller> Sellers { get; set; }
         public List<Agent> Agents { get; set; }
         public List<CalendarNotes> CalendarNotes { get; set; }
+        public List<CalendarNotes> ClientNotes { get; set; }
     }
     
 
