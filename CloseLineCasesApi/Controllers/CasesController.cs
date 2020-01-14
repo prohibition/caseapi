@@ -61,7 +61,7 @@ namespace CloseLineCasesApi.Controllers
             {
                 if (Request.IsValid())
                 {
-                    var calendarnotes = CloselineRepository.GetClientCalendarNotes(filenumber);
+                    var calendarnotes = CloselineRepository.GetCalendarNotes(filenumber);
 
                     if (calendarnotes != null)
                         return Ok(new { status = 1, Result = calendarnotes, Message = "" });
@@ -96,7 +96,7 @@ namespace CloseLineCasesApi.Controllers
             {
                 if (Request.IsValid())
                 {
-                    var calendarnotes = CloselineRepository.GetClientCalendarNotes(filenumber);
+                    var calendarnotes = CloselineRepository.GetClientNotes(filenumber);
 
                     if (calendarnotes != null)
                         return Ok(new { status = 1, Result = calendarnotes, Message = "" });
@@ -131,7 +131,77 @@ namespace CloseLineCasesApi.Controllers
             {
                 if (Request.IsValid())
                 {
-                    var calendarnotes = CloselineRepository.GetAllCalendarNotes();
+                    var calendarnotes = CloselineRepository.GetCalendarNotes();
+
+                    if (calendarnotes != null)
+                        return Ok(new { status = 1, Result = calendarnotes, Message = "" });
+                    else
+                        return Ok(new { status = 0, Result = "", Message = "Record not found!" });
+                }
+                else
+                {
+                    return Content(HttpStatusCode.MethodNotAllowed, new { status = 0, Message = "Invalid Request" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                string ErrorMsg = "";
+                ErrorMsg += "<b>Inner Exception: </b>" + ex.InnerException;
+                ErrorMsg += "<br/><b>Message: </b>" + ex.Message;
+                ErrorMsg += "<br/><b>Source: </b>" + ex.Source;
+                ErrorMsg += "<br/><b>Stack Trace: </b>" + ex.StackTrace;
+                ErrorMsg += "<br/><b>Help Link: </b>" + ex.HelpLink;
+
+                return Content(HttpStatusCode.BadRequest, new { status = 0, Message = $"{ex.Message}", InnerErrorInfo = json });
+            }
+        }
+
+        [Route("api/AllNotes/")]
+        [HttpGet]
+        public IHttpActionResult AllNotes()
+        {
+            try
+            {
+                if (Request.IsValid())
+                {
+                    var calendarnotes = CloselineRepository.GetAllNotes();
+
+                    if (calendarnotes != null)
+                        return Ok(new { status = 1, Result = calendarnotes, Message = "" });
+                    else
+                        return Ok(new { status = 0, Result = "", Message = "Record not found!" });
+                }
+                else
+                {
+                    return Content(HttpStatusCode.MethodNotAllowed, new { status = 0, Message = "Invalid Request" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                string ErrorMsg = "";
+                ErrorMsg += "<b>Inner Exception: </b>" + ex.InnerException;
+                ErrorMsg += "<br/><b>Message: </b>" + ex.Message;
+                ErrorMsg += "<br/><b>Source: </b>" + ex.Source;
+                ErrorMsg += "<br/><b>Stack Trace: </b>" + ex.StackTrace;
+                ErrorMsg += "<br/><b>Help Link: </b>" + ex.HelpLink;
+
+                return Content(HttpStatusCode.BadRequest, new { status = 0, Message = $"{ex.Message}", InnerErrorInfo = json });
+            }
+        }
+        
+        [Route("api/CaseNotes/{filenumber}")]
+        [HttpGet]
+        public IHttpActionResult CaseNotes(string filenumber)
+        {
+            try
+            {
+                if (Request.IsValid())
+                {
+                    var calendarnotes = CloselineRepository.GetCaseNotes(filenumber);
 
                     if (calendarnotes != null)
                         return Ok(new { status = 1, Result = calendarnotes, Message = "" });
@@ -166,7 +236,7 @@ namespace CloseLineCasesApi.Controllers
             {
                 if (Request.IsValid())
                 {
-                    var calendarnotes = CloselineRepository.GetAllClientCalendarNotes();
+                    var calendarnotes = CloselineRepository.GetClientNotes();
 
                     if (calendarnotes != null)
                         return Ok(new { status = 1, Result = calendarnotes, Message = "" });

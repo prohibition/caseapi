@@ -21,7 +21,7 @@ namespace CloseLineCasesApi.Repository
             }
         }
 
-        public static List<CalendarNotes> GetAllCalendarNotes()
+        public static List<CalendarNotes> GetCalendarNotes()
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -29,7 +29,7 @@ namespace CloseLineCasesApi.Repository
             }
         }
 
-        public static List<CalendarNotes> GetAllClientCalendarNotes()
+        public static List<CalendarNotes> GetClientNotes()
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -45,14 +45,21 @@ namespace CloseLineCasesApi.Repository
             }
         }
 
-        public static List<CalendarNotes> GetCaseAllNotes(string fileno)
+        public static List<CalendarNotes> GetAllNotes()
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                return connection.Query<CalendarNotes>($"Select * from [CalendarNotes]").ToList();
+            }
+        }
+        public static List<CalendarNotes> GetCaseNotes(string fileno)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
                 return connection.Query<CalendarNotes>($"Select * from [CalendarNotes] Where FileNo=@fileno", new { @fileno = fileno }).ToList();
             }
         }
-        public static List<CalendarNotes> GetClientCalendarNotes(string fileno)
+        public static List<CalendarNotes> GetClientNotes(string fileno)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -126,7 +133,7 @@ namespace CloseLineCasesApi.Repository
 
 
             var calenderNotes = GetCalendarNotes(fileno);
-            var clientcalenderNotes = GetClientCalendarNotes(fileno);
+            var clientcalenderNotes = GetClientNotes(fileno);
 
             var caseDetail = new CaseDetails
             {

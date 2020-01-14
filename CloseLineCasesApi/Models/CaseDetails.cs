@@ -97,6 +97,14 @@ namespace CloseLineCasesApi.Models
         public DateTime? ClientVisibleUpdatedDate { get; set; }
         public string ClientVisibleUpdatedBy { get; set; }
 
+        public DateTime? NotesCreatedDate { get; set; }
+        public string Status { get; set; }
+        public string Borrower { get; set; }
+        public string Seller { get; set; }
+        public string Address { get; set; }
+
+
+
     }
 
 
